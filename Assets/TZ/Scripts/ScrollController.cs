@@ -6,8 +6,9 @@ public class ScrollController : MonoBehaviourExt
 {
     [SerializeField] private ScrollView scrollView;
     [SerializeField] private bool isScrolling = true;
+    [SerializeField] private float buttonCooldown = 1f;
     
-    private AsyncEventManager asyncEventManager;
+    private AsyncEventManager _asyncEventManager;
 
     private const string StartButtonEnable = "BtnStartButtonEnable";
     private const string StopButtonEnable = "BtnStopButtonEnable";
@@ -36,7 +37,7 @@ public class ScrollController : MonoBehaviourExt
     private void ResolveButtonsWithDelay(string btnToDeactivate, string btnToActivate)
     {
         Path.Action(() => Model.Set(btnToDeactivate, false))
-            .Wait(1f)
+            .Wait(buttonCooldown)
             .Action(() =>
             {
                 Model.Set(btnToActivate, true);
